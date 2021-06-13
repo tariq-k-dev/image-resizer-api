@@ -26,9 +26,9 @@ npm run build
 npm run test
 ```
 
-### Use the following URL pattern to resize a test image
+### Use the following URL pattern to resize a demo image
 
 **Note**: Please substitute whatever whole numbers you wish for the images width and height in pixels
 
-`/api/images?filename=fjord&width=600&height=480`
+[https://image-resize-api.herokuapp.com/api/images?filename=fjord&width=600&height=480](https://image-resize-api.herokuapp.com/api/images?filename=fjord&width=600&height=480)
 

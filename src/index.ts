@@ -1,5 +1,5 @@
 import express from 'express';
-// import path from 'path';
+import path from 'path';
 import routes from './routes/index';
 
 const app = express();
@@ -8,8 +8,7 @@ const HOST = 'http://localhost:';
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use(express.static('dist'));
+app.use(express.static(path.join(__dirname, 'dist')));
 app.use(routes);
 
 app.listen(PORT, () => {

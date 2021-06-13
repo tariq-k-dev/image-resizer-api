@@ -46,7 +46,10 @@ var sharp_resize_1 = __importDefault(require("../utilities/sharp-resize"));
 var routes = express_1.default.Router();
 /* GET home page. */
 routes.get('/', function (req, res) {
-    res.send('<h1>Hello from Express!</h1>');
+    res.sendFile(path_1.default.resolve(path_1.default.join('dist', 'views', 'index.html')));
+});
+routes.get('/css/style.css', function (req, res) {
+    res.sendFile(path_1.default.resolve(path_1.default.join('dist', 'views', 'css', 'style.css')));
 });
 routes.get('/api/images', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var filename, imgWidth, imgHeight, fullImgPath, fullImages, matchingImg, fileExt, imgInfo, thumbImgPath, imgCached, err_1, err_2;

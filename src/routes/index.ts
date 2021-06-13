@@ -7,7 +7,11 @@ const routes = express.Router();
 
 /* GET home page. */
 routes.get('/', (req, res) => {
-  res.send('<h1>Hello from Express!</h1>');
+  res.sendFile(path.resolve(path.join('dist', 'views', 'index.html')));
+});
+
+routes.get('/css/style.css', (req, res) => {
+  res.sendFile(path.resolve(path.join('dist', 'views', 'css', 'style.css')));
 });
 
 routes.get('/api/images', async (req, res) => {
