@@ -2,27 +2,22 @@ import express from 'express';
 import fs from 'fs';
 import path from 'path';
 import imgResize from '../utilities/sharp-resize';
-import rateLimit from 'express-rate-limit';
+import limiter from '../utilities/rateLimiter';
 
 const routes = express.Router();
 
-// set up rate limiter: maximum of five requests per minute
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-});
-
-routes.get('/', limiter);
-
 /* GET home page. */
-routes.get('/', (req: express.Request, res: express.Response): void => {
-  res.sendFile(path.resolve(path.join('dist', 'views', 'index.html')));
-});
+routes.get(
+  '/',
+  limiter,
+  (req: express.Request, res: express.Response): void => {
+    res.sendFile(path.resolve(path.join('dist', 'views', 'index.html')));
+  }
+);
 
 routes.get(
   '/css/style.css',
+  limiter,
   (req: express.Request, res: express.Response): void => {
     res.sendFile(path.resolve(path.join('dist', 'views', 'css', 'style.css')));
   }
@@ -30,6 +25,7 @@ routes.get(
 
 routes.get(
   '/api/images',
+  limiter,
   async (req: express.Request, res: express.Response): Promise<void> => {
     const filename: string = req.query.filename as string;
     const imgWidth: number = parseInt(req.query.width as string);
