@@ -18,7 +18,8 @@ const limiter = rateLimit({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'dist')));
-app.use(limiter, routes);
+app.use(limiter);
+app.use(routes);
 
 app.listen(PORT, () => {
   console.log(`Listening at ${HOST + PORT}`);
