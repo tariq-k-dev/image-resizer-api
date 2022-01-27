@@ -47,11 +47,13 @@ routes.get(
           imgHeight,
           fileExt,
         };
-        const thumbImgPath = path.join(
-          'dist',
-          'assets',
-          'thumb',
-          filename + '_thumb_' + imgWidth + '_' + imgHeight + '.' + fileExt
+        const thumbImgPath = sanitize(
+          path.join(
+            'dist',
+            'assets',
+            'thumb',
+            filename + '_thumb_' + imgWidth + '_' + imgHeight + '.' + fileExt
+          )
         );
 
         // check if image is already cached
