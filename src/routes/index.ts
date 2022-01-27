@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import imgResize from '../utilities/sharp-resize';
 import limiter from '../utilities/rateLimiter';
+import sanitize from 'sanitize-filename';
 
 const routes = express.Router();
 
@@ -27,7 +28,7 @@ routes.get(
   '/api/images',
   limiter,
   async (req: express.Request, res: express.Response): Promise<void> => {
-    const filename: string = req.query.filename as string;
+    const filename: string = sanitize(req.query.filename as string);
     const imgWidth: number = parseInt(req.query.width as string);
     const imgHeight: number = parseInt(req.query.height as string);
     const fullImgPath: string = path.join('dist', 'assets', 'full');
