@@ -29,8 +29,8 @@ routes.get(
   limiter,
   async (req: express.Request, res: express.Response): Promise<void> => {
     const filename: string = sanitize(req.query.filename as string);
-    const imgWidth: number = parseInt(req.query.width as string);
-    const imgHeight: number = parseInt(req.query.height as string);
+    const imgWidth: number = parseInt(sanitize(req.query.width as string));
+    const imgHeight: number = parseInt(sanitize(req.query.height as string));
     const fullImgPath: string = path.join('dist', 'assets', 'full');
 
     try {
@@ -47,17 +47,16 @@ routes.get(
           imgHeight,
           fileExt,
         };
-        const thumbImgPath = sanitize(
-          path.join(
-            'dist',
-            'assets',
-            'thumb',
-            filename + '_thumb_' + imgWidth + '_' + imgHeight + '.' + fileExt
-          )
+        const thumbImgPath = path.join(
+          'dist',
+          'assets',
+          'thumb',
+          filename + '_thumb_' + imgWidth + '_' + imgHeight + '.' + fileExt
         );
+        const sanitizedImgPath = sanitize(thumbImgPath);
 
         // check if image is already cached
-        const imgCached = fs.existsSync(thumbImgPath);
+        const imgCached = fs.existsSync(sanitizedImgPath);
 
         if (!imgCached) {
           try {
@@ -65,9 +64,9 @@ routes.get(
           } catch (err: unknown) {
             console.error('Image resize:', err);
           }
-          res.sendFile(path.resolve(thumbImgPath));
+          res.sendFile(path.resolve(sanitizedImgPath));
         } else {
-          res.sendFile(path.resolve(thumbImgPath));
+          res.sendFile(path.resolve(sanitizedImgPath));
         }
       }
     } catch (err: unknown) {
